@@ -28,7 +28,7 @@ const main = () => {
       countryCode: "RO",
       countrySubentityCode: "RO-SV"
     },
-    regCom: "F00/000/0000",
+    regCom: "J00/000/0000",
     taxRegistrationCode: 'RO00000000',
   })
 
@@ -41,7 +41,7 @@ const main = () => {
       countryCode: "RO",
       countrySubentityCode: "RO-SV"
     },
-    regCom: "F00/001/0000",
+    regCom: "J00/001/0000",
     taxRegistrationCode: 'RO00000001',
   })
 

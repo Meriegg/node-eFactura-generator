@@ -1,17 +1,18 @@
 import { create } from 'xmlbuilder2'
-import { Entity, InvoiceGeneralData, InvoiceLine, InvoiceMonetaryData, InvoicePaymentMeans, InvoiceTaxData } from "./types";
 import { XMLBuilder } from 'xmlbuilder2/lib/interfaces';
 import { convertCurrency } from './utils/convert-currency';
 import { formatDate } from './utils/format-date';
+import { InvoiceTypeCodes, InvoiceTypeCodesDescriptions } from './utils/codes';
+import type { Entity, InvoiceGeneralData, InvoiceLine, InvoiceMonetaryData, InvoicePaymentMeans, InvoiceTaxData, InvoiceTypeCode } from "./types";
 
 export class Invoice {
+  private invoiceGeneralData: InvoiceGeneralData | null = null;
   private buyer: Entity | null = null;
   private seller: Entity | null = null;
-  private invoiceGeneralData: InvoiceGeneralData | null = null;
+  private invoicePaymentMeans: InvoicePaymentMeans | null = null;
   private invoiceTaxData: InvoiceTaxData | null = null;
   private invoiceMonetaryData: InvoiceMonetaryData | null = null;
   private invoiceLines: InvoiceLine[] | null = null;
-  private invoicePaymentMeans: InvoicePaymentMeans | null = null;
 
   constructor() { }
 
@@ -291,4 +292,16 @@ export class Invoice {
     const xml = root.end({ prettyPrint: true });
     return xml;
   }
+}
+
+export const getAllInvoiceTypeCodes = () => {
+  return InvoiceTypeCodes;
+}
+
+export const getInvoiceTypeCodeDescription = (code: InvoiceTypeCode) => {
+  if (!InvoiceTypeCodes.includes(code)) {
+    return null
+  }
+
+  return InvoiceTypeCodesDescriptions[code];
 }

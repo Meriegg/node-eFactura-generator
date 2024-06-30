@@ -1,8 +1,8 @@
 import { InvoiceTypeCodes, TaxCategoryCodes, TaxDueCodes } from "../utils/codes";
 
-type InvoiceTypeCode = typeof InvoiceTypeCodes[number];
-type TaxCategoryCode = typeof TaxCategoryCodes[number];
-type TaxDueCode = typeof TaxDueCodes[number];
+export type InvoiceTypeCode = typeof InvoiceTypeCodes[number];
+export type TaxCategoryCode = typeof TaxCategoryCodes[number];
+export type TaxDueCode = typeof TaxDueCodes[number];
 
 export type Entity = {
   registrationName: string;
@@ -40,7 +40,7 @@ export type InvoiceTaxData = {
     taxAmount: number;
     taxableAmount: number;
     categoryId: TaxCategoryCode;
-    taxSchemeId: "VAT";
+    taxSchemeId: string;
 
     taxPercentage: number | null;
 
@@ -68,7 +68,7 @@ export type InvoiceLine = {
     tax: {
       id: TaxCategoryCode;
       taxPercentage: number | null;
-      taxId: "VAT";
+      taxId: string;
     }
   }
 
