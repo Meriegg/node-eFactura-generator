@@ -519,7 +519,7 @@ console.log(codes); // ['3', '35', '432']
 ```typescript
 import { getTaxDueCodeDescription } from "node-eFactura-generator";
 
-const description: string = getInvoiceTypeCodeDescription("3");
+const description: string = getTaxDueCodeDescription("3");
 console.log(description); // Data emiterii facturii
 ```
 
