@@ -317,3 +317,5 @@ export const getTaxDueCodeDescription = (code: TaxDueCode) => {
 
   return TaxDueCodesDescriptions[code];
 }
+
+export type { Entity, InvoiceGeneralData, InvoiceLine, InvoiceMonetaryData, InvoicePaymentMeans, InvoiceTaxData, InvoiceTypeCode, TaxDueCode } from "./types";
