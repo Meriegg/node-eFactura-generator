@@ -6,7 +6,7 @@ Utilizarea acestui pachet este pe propriul risc. Autorul nu va fi responsabil pe
 
 Pentru asistență legală sau fiscală, recomand să consultați un profesionist calificat.
 
-# node-eFactura-generator
+# node-e-factura-generator
 
 Generator e Factura XML in format UBL 2.1 adaptat pentru standardul CIUS-RO pentru node.js.
 
@@ -15,7 +15,7 @@ Generator e Factura XML in format UBL 2.1 adaptat pentru standardul CIUS-RO pent
 Instaleaza modulul cu comanda:
 
 ```
-npm install --save node-eFactura-generator
+npm install --save node-e-factura-generator
 ```
 
 ## Exemplu Utilizare
@@ -23,7 +23,7 @@ npm install --save node-eFactura-generator
 Documentatie specifica mai jos.
 
 ```javascript
-import { Invoice } from "node-eFactura-generator";
+import { Invoice } from "node-e-factura-generator";
 import fs from "fs";
 import path from "path";
 
@@ -484,14 +484,14 @@ codul `invoiceTypeCode` este un cod care identifica tipul de factura.
 Pentru a avea access direct se pot folosii functiile:
 
 ```typescript
-import { getAllInvoiceTypeCodes } from "node-eFactura-generator";
+import { getAllInvoiceTypeCodes } from "node-e-factura-generator";
 
 const codes: string[] = getAllInvoiceTypeCodes();
 console.log(codes); // ['380', '384', '389', '751']
 ```
 
 ```typescript
-import { getInvoiceTypeCodeDescription } from "node-eFactura-generator";
+import { getInvoiceTypeCodeDescription } from "node-e-factura-generator";
 
 const description: string = getInvoiceTypeCodeDescription("380");
 console.log(description); // Factura
@@ -510,14 +510,14 @@ codul `taxDueCode` este un cod care identifica data de scadenta TVA.
 Pentru a avea access direct se pot folosii functiile:
 
 ```typescript
-import { getAllTaxDueCodes } from "node-eFactura-generator";
+import { getAllTaxDueCodes } from "node-e-factura-generator";
 
 const codes: string[] = getAllTaxDueCodes();
 console.log(codes); // ['3', '35', '432']
 ```
 
 ```typescript
-import { getTaxDueCodeDescription } from "node-eFactura-generator";
+import { getTaxDueCodeDescription } from "node-e-factura-generator";
 
 const description: string = getTaxDueCodeDescription("3");
 console.log(description); // Data emiterii facturii

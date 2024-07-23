@@ -1,14 +1,14 @@
 {
-  "name": "e-factura-generator",
+  "name": "node-e-factura-generator",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Generator XML UBL 2.1 adaptat CIUS-RO pentru e Factura.",
+  "main": "dist/index.js",
   "scripts": {
     "watch": "tsc --watch",
     "build": "tsc"
   },
   "keywords": [],
-  "author": "",
+  "author": "Serban Mario <mario.developer.contact@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.14.9",
