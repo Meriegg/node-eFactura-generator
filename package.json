@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "description": "Generator XML UBL 2.1 adaptat CIUS-RO pentru e Factura.",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "watch": "tsc --watch",
-    "build": "tsc"
+    "build": "tsup"
   },
   "keywords": [],
   "author": "Serban Mario <mario.developer.contact@gmail.com>",
@@ -15,6 +20,7 @@
     "typescript": "^5.5.2"
   },
   "dependencies": {
+    "tsup": "^8.2.2",
     "xmlbuilder2": "^3.1.1"
   }
 }
