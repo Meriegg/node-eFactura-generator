@@ -335,15 +335,13 @@ export type InvoiceTaxData = {
 };
 ```
 
-`taxTotal` este un field obligatoriu, daca vanzatorul este scutit de TVA, acesta va fi setat la 0.
-
-`taxSubtotalData` este o lista de obiecte care conțin datele despre fiecare tip de taxa supusa facturii.
-
-`taxSubtotalData[number].taxAmount` este suma totala taxelor supuse unei categorii de taxa.
-`taxSubtotalData[number].taxableAmount` este baza de calcul a taxelor supuse unei categorii de taxa.
-`taxSubtotalData[number].categoryId` este codul categoriei de taxa supusa (mai multe detalii in sectiunea "Coduri").
-`taxSubtotalData[number].taxSchemeId` taxa supusa, de cele mai multe ori este "VAT" (mai multe detalii in sectiunea "Coduri").
-`taxSubtotalData[number].taxPercentage` este procentul taxelor supuse.
+- `taxTotal` este un field obligatoriu, daca vanzatorul este scutit de TVA, acesta va fi setat la 0.
+- `taxSubtotalData` este o lista de obiecte care conțin datele despre fiecare tip de taxa supusa facturii.
+- `taxSubtotalData[number].taxAmount` este suma totala taxelor supuse unei categorii de taxa.
+- `taxSubtotalData[number].taxableAmount` este baza de calcul a taxelor supuse unei categorii de taxa.
+- `taxSubtotalData[number].categoryId` este codul categoriei de taxa supusa (mai multe detalii in sectiunea "Coduri").
+- `taxSubtotalData[number].taxSchemeId` taxa supusa, de cele mai multe ori este "VAT" (mai multe detalii in sectiunea "Coduri").
+- `taxSubtotalData[number].taxPercentage` este procentul taxelor supuse.
 
 `taxSubtotalData[number].taxExemptionReasonCode` este codul motivului scutirii de TVA. (mai multe detalii in sectiunea "Coduri").
 `taxSubtotalData[number].taxExemptionReason` este descrierea motivului scutirii de TVA.
@@ -581,3 +579,40 @@ Aceste coduri nu sunt specifice pentru eFactura sau acest pachet. Pentru mai mul
 Linkul de mai sus **se poate schimba** si **nu este sponsorizat**.
 
 Pentru determinarea folosirii codurilor recomand consultarea cu un contabil autorizat sau un expert in domeniu.
+
+## Cursul valutar
+
+Pentru facturile in valuta, acest pachet are urmatoarele rate de conversie _default_:
+
+| Currency   | Rate |
+| ---------- | ---- |
+| EUR -> RON | 4.98 |
+| RON -> EUR | 0.20 |
+
+Aceste rate pot fi modificate folosind metoda `setConversionRates` din clasa `Invoice`. Aceasta metoda accepta un set de key-value pairs (unde key este in format `{FROM_CURRENCY}:${TO_CURRENCY}` si value este rata de conversie).
+
+**Nota**:Daca ratele de conversie default nu sunt modificate explicit (ci doar ati adaugat rate de conversie noi), atunci ele vor fi aplicate in continuare daca este cazul.
+
+Exemplu:
+
+```typescript
+import { Invoice } from "node-e-factura-generator";
+import fs from "fs";
+import path from "path";
+
+const main = () => {
+  const invoice = new Invoice();
+
+  // ...
+
+  invoice.setConversionRates({
+    "EUR:RON": 4.97, // modificare
+    "RON:EUR": 0.19, // modificare
+    "USD:RON": 4.58, // adaugare
+  });
+
+  const xml = invoice.generateInvoice();
+
+  fs.writeFileSync(path.join(__dirname, "../test_example.xml"), xml, "utf-8");
+};
+```

@@ -3,7 +3,7 @@ import { XMLBuilder } from 'xmlbuilder2/lib/interfaces';
 import { convertCurrency } from './utils/convert-currency';
 import { formatDate } from './utils/format-date';
 import { InvoiceTypeCodes, InvoiceTypeCodesDescriptions, TaxDueCodes, TaxDueCodesDescriptions } from './utils/codes';
-import type { Entity, InvoiceGeneralData, InvoiceLine, InvoiceMonetaryData, InvoicePaymentMeans, InvoiceTaxData, InvoiceTypeCode, TaxDueCode } from "./types";
+import type { ConversionRates, Entity, InvoiceGeneralData, InvoiceLine, InvoiceMonetaryData, InvoicePaymentMeans, InvoiceTaxData, InvoiceTypeCode, TaxDueCode } from "./types";
 
 export class Invoice {
   private invoiceGeneralData: InvoiceGeneralData | null = null;
@@ -13,8 +13,13 @@ export class Invoice {
   private invoiceTaxData: InvoiceTaxData | null = null;
   private invoiceMonetaryData: InvoiceMonetaryData | null = null;
   private invoiceLines: InvoiceLine[] | null = null;
+  private conversionRates: ConversionRates | null = null;
 
   constructor() { }
+
+  public setConversionRates(conversionRates: ConversionRates) {
+    this.conversionRates = conversionRates;
+  }
 
   public setBuyer(buyer: Entity) {
     this.buyer = buyer;
@@ -137,7 +142,7 @@ export class Invoice {
     // If the invoices uses currency conversion, then there shall be another cac:TaxTotal element only with a cbc:TaxAmount child
     // in the RON currency with a converted value at the BNR conversion rate.
     if (params.usesConversion) {
-      const convertedTaxAmount = convertCurrency(data.taxData.taxTotal, data.generalData.currencyCode, "RON");
+      const convertedTaxAmount = convertCurrency(data.taxData.taxTotal, data.generalData.currencyCode, "RON", this.conversionRates);
       xml.ele('cac:TaxTotal').ele('cbc:TaxAmount', { currencyID: "RON" }).txt(convertedTaxAmount.toFixed(2)).up().up();
     }
   }
@@ -318,4 +323,4 @@ export const getTaxDueCodeDescription = (code: TaxDueCode) => {
   return TaxDueCodesDescriptions[code];
 }
 
-export type { Entity, InvoiceGeneralData, InvoiceLine, InvoiceMonetaryData, InvoicePaymentMeans, InvoiceTaxData, InvoiceTypeCode, TaxDueCode } from "./types";
+export type { Entity, InvoiceGeneralData, ConversionRates, InvoiceLine, InvoiceMonetaryData, InvoicePaymentMeans, InvoiceTaxData, InvoiceTypeCode, TaxDueCode } from "./types";

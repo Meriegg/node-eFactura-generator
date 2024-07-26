@@ -11,7 +11,7 @@ const main = () => {
     invoiceSeries: "test",
     invoiceIssueDate: new Date(),
     invoiceDueDate: new Date(),
-    currencyCode: "RON",
+    currencyCode: "EUR",
     invoiceTypeCode: "380",
     taxData: {
       taxDueCode: null,

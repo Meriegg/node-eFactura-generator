@@ -101,3 +101,5 @@ export type InvoicePaymentMeans = {
     debitedAccountID: string;
   }
 }
+
+export type ConversionRates = Record<`${string}:${string}`, number>

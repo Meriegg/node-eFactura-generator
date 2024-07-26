@@ -1,7 +1,8 @@
 {
   "name": "node-e-factura-generator",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Generator XML UBL 2.1 adaptat CIUS-RO pentru e Factura.",
+  "homepage": "https://github.com/Meriegg/node-eFactura-generator",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -10,9 +11,19 @@
   ],
   "scripts": {
     "watch": "tsc --watch",
-    "build": "tsup"
+    "build": "tsup",
+    "build:tsc": "tsc"
   },
-  "keywords": [],
+  "keywords": [
+    "e-factura",
+    "factura",
+    "generator",
+    "xml",
+    "ubl",
+    "cius-ro",
+    "invoice",
+    "e-invoicing"
+  ],
   "author": "Serban Mario <mario.developer.contact@gmail.com>",
   "license": "ISC",
   "repository": {
