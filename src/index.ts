@@ -239,7 +239,7 @@ export class Invoice {
 
   public generateInvoice() {
     // Check if all required data is present
-    if (!this.buyer || !this.seller || !this.invoiceGeneralData || !this.invoiceTaxData || !this.invoiceMonetaryData || !this.invoiceLines?.length || !this.invoicePaymentMeans) {
+    if (!this.buyer || !this.seller || !this.invoiceGeneralData || !this.invoiceTaxData || !this.invoiceMonetaryData || !this.invoiceLines?.length) {
       throw new Error("Missing required data");
     }
 
@@ -280,8 +280,10 @@ export class Invoice {
     const customerParty = invoice.ele("cac:AccountingCustomerParty");
     this.addEntityToXML(customerParty, this.buyer, { showVATData, showLegalForm: false });
 
-    // Add payment means to the XML
-    this.addPaymentMeansToXML(invoice, { paymentMeans: this.invoicePaymentMeans });
+    if (!!this.invoicePaymentMeans) {
+      // Add payment means to the XML
+      this.addPaymentMeansToXML(invoice, { paymentMeans: this.invoicePaymentMeans });
+    }
 
     // Add the tax data to the XML according to the validation rules
     this.addTaxDataToXML(invoice, { taxData: this.invoiceTaxData, generalData: this.invoiceGeneralData }, { usesConversion });

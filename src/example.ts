@@ -4,6 +4,9 @@ import fs from 'fs';
 import path from 'path';
 
 const main = () => {
+  // The following example *will* produce an error if validated.
+  // There needs to be valid registered Seller and Buyer entities in order for this document to pass any validation programs.
+
   const invoice = new Invoice();
 
   invoice.setInvoiceGeneralData({
@@ -20,7 +23,7 @@ const main = () => {
   })
 
   invoice.setSeller({
-    registrationName: "Seller",
+    registrationName: "Buyer",
     registrationCode: 'RO00000000',
     address: {
       streetName: "Adresa",
@@ -29,7 +32,7 @@ const main = () => {
       countrySubentityCode: "RO-SV"
     },
     regCom: "J00/000/0000",
-    taxRegistrationCode: 'RO00000000',
+    taxRegistrationCode: null,
   })
 
   invoice.setBuyer({
@@ -45,6 +48,7 @@ const main = () => {
     taxRegistrationCode: 'RO00000001',
   })
 
+  // Optional
   invoice.setInvoicePaymentMeans({
     paymentMeansCode: "ZZZ",
     paymentMeanDescription: "Alta metoda",

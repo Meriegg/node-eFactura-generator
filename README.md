@@ -22,6 +22,8 @@ npm install --save node-e-factura-generator
 
 Documentatie specifica mai jos.
 
+**Nota**: Urmatorul exemplu va fi considerat invalid din cauza entitatilor (Buyer/Seller) invalide. Pentru a fi validat fara nicio eroare sunt necesare entitati valide/inregistrate.
+
 ```javascript
 import { Invoice } from "node-e-factura-generator";
 import fs from "fs";
@@ -69,6 +71,7 @@ const main = () => {
     taxRegistrationCode: "RO00000001",
   });
 
+  // Optional
   invoice.setInvoicePaymentMeans({
     paymentMeansCode: "ZZZ",
     paymentMeanDescription: "Alta metoda",
@@ -146,15 +149,18 @@ main();
 
 ## Documentatie
 
-Pentru a genera o factura exista 7 componente obligatorii:
+Pentru a genera o factura exista 6 componente obligatorii:
 
 - invoiceGeneralData - informatii generate despre factura.
 - seller - informații despre vanzator.
 - buyer - informații despre cumparator.
-- invoicePaymentMeans - metoda de plata.
 - invoiceTaxData - date TVA.
 - invoiceMonetaryData - date despre totalurile facturii.
 - invoiceLines - produsele facturate.
+
+Componente optionale:
+
+- invoicePaymentMeans - instructiuni de plata.
 
 Informatii despre toate codurile prezente in factura sunt prezente la sectiunea "Coduri".
 
@@ -264,7 +270,7 @@ invoice.setSeller({
 
 ### `InvoicePaymentMeans`
 
-`InvoicePaymentMeans` reprezinta metoda de plata a facturii.
+`InvoicePaymentMeans` reprezinta instructiunile de plata a facturii.
 
 Schema generala:
 
@@ -342,9 +348,8 @@ export type InvoiceTaxData = {
 - `taxSubtotalData[number].categoryId` este codul categoriei de taxa supusa (mai multe detalii in sectiunea "Coduri").
 - `taxSubtotalData[number].taxSchemeId` taxa supusa, de cele mai multe ori este "VAT" (mai multe detalii in sectiunea "Coduri").
 - `taxSubtotalData[number].taxPercentage` este procentul taxelor supuse.
-
-`taxSubtotalData[number].taxExemptionReasonCode` este codul motivului scutirii de TVA. (mai multe detalii in sectiunea "Coduri").
-`taxSubtotalData[number].taxExemptionReason` este descrierea motivului scutirii de TVA.
+- `taxSubtotalData[number].taxExemptionReasonCode` este codul motivului scutirii de TVA. (mai multe detalii in sectiunea "Coduri").
+- `taxSubtotalData[number].taxExemptionReason` este descrierea motivului scutirii de TVA.
 
 Se poate seta folosind metoda `setInvoiceTaxData` din clasa `Invoice`.
 
@@ -398,10 +403,10 @@ export type InvoiceMonetaryData = {
 };
 ```
 
-`lineExtensionAmount` este suma totala liniilor facturate.
-`taxExclusiveAmount` este suma totala fara TVA.
-`taxInclusiveAmount` este suma totala cu TVA.
-`payableAmount` este totalul de plata.
+- `lineExtensionAmount` este suma totala liniilor facturate.
+- `taxExclusiveAmount` este suma totala fara TVA.
+- `taxInclusiveAmount` este suma totala cu TVA.
+- `payableAmount` este totalul de plata.
 
 Se poate seta folosind metoda `setInvoiceMonetaryData` din clasa `Invoice`.
 
@@ -446,23 +451,23 @@ type InvoiceLine = {
 };
 ```
 
-`id` este un identificator unic pentru linia facturata (In general este folosit ca nr. crt.).
-`invoicedQuantity` este cantitatea facturata.
-`unitCode` este codul unitatii de masura. Pot fi gasite in Excelul SAF-T ANAF de mai sus. Cel mai popular este "H87" (Bucata).
-`lineTotal` este suma totala liniei facturate.
+- `id` este un identificator unic pentru linia facturata (In general este folosit ca nr. crt.).
+- `invoicedQuantity` este cantitatea facturata.
+- `unitCode` este codul unitatii de masura. Pot fi gasite in Excelul SAF-T ANAF de mai sus. Cel mai popular este "H87" (Bucata).
+- `lineTotal` este suma totala liniei facturate.
 
-`item` este un obiect care conține datele despre produsul facturat.
+- `item` este un obiect care conține datele despre produsul facturat.
 
-`item.name` este numele produsului.
-`item.sellerIdentificationID` este identificatorul intern al produsului pentru vanzator.
-`item.tax` este un obiect care conține datele despre taxa produsului.
-`item.tax.id` este codul categoriei de taxa supusa (mai multe detalii in sectiunea "Coduri").
-`item.tax.taxPercentage` este procentul taxelor supuse.
-`item.tax.taxId` este codul taxei supuse (mai multe detalii in sectiunea "Coduri").
+- `item.name` este numele produsului.
+- `item.sellerIdentificationID` este identificatorul intern al produsului pentru vanzator.
+- `item.tax` este un obiect care conține datele despre taxa produsului.
+- `item.tax.id` este codul categoriei de taxa supusa (mai multe detalii in sectiunea "Coduri").
+- `item.tax.taxPercentage` este procentul taxelor supuse.
+- `item.tax.taxId` este codul taxei supuse (mai multe detalii in sectiunea "Coduri").
 
-`price` este un obiect care conține datele despre prețul produsului.
-`price.priceAmount` este pretul unitar al produsului.
-`price.baseQuantity` este cantitatea de baza a produsului (in general este 1).
+- `price` este un obiect care conține datele despre prețul produsului.
+- `price.priceAmount` este pretul unitar al produsului.
+- `price.baseQuantity` este cantitatea de baza a produsului (in general este 1).
 
 # Coduri
 

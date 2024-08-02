@@ -1,3 +1,9 @@
+# Versiunea 1.0.4
+
+Non-breaking changes:
+
+- Field-ul `invoicePaymentMeans` este optional.
+
 # Versiunea 1.0.3
 
 Non-breaking changes:
