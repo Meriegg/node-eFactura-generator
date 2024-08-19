@@ -4,7 +4,21 @@ export type InvoiceTypeCode = typeof InvoiceTypeCodes[number];
 export type TaxCategoryCode = typeof TaxCategoryCodes[number];
 export type TaxDueCode = typeof TaxDueCodes[number];
 
-export type Entity = {
+export type Entity_Seller = {
+  registrationName: string;
+  registrationCode: string;
+  regCom: string;
+  address: {
+    streetName: string
+    cityName: string;
+    countrySubentityCode: string;
+    countryCode: string;
+  };
+  taxRegistrationCode: string | null;
+  legalFormData: string;
+}
+
+export type Entity_Buyer = {
   registrationName: string;
   registrationCode: string;
   regCom: string;

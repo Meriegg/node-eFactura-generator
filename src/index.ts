@@ -3,12 +3,12 @@ import { XMLBuilder } from 'xmlbuilder2/lib/interfaces';
 import { convertCurrency } from './utils/convert-currency';
 import { formatDate } from './utils/format-date';
 import { InvoiceTypeCodes, InvoiceTypeCodesDescriptions, TaxDueCodes, TaxDueCodesDescriptions } from './utils/codes';
-import type { ConversionRates, Entity, InvoiceGeneralData, InvoiceLine, InvoiceMonetaryData, InvoicePaymentMeans, InvoiceTaxData, InvoiceTypeCode, TaxDueCode } from "./types";
+import type { ConversionRates, Entity_Seller, Entity_Buyer, InvoiceGeneralData, InvoiceLine, InvoiceMonetaryData, InvoicePaymentMeans, InvoiceTaxData, InvoiceTypeCode, TaxDueCode } from "./types";
 
 export class Invoice {
   private invoiceGeneralData: InvoiceGeneralData | null = null;
-  private buyer: Entity | null = null;
-  private seller: Entity | null = null;
+  private buyer: Entity_Buyer | null = null;
+  private seller: Entity_Seller | null = null;
   private invoicePaymentMeans: InvoicePaymentMeans | null = null;
   private invoiceTaxData: InvoiceTaxData | null = null;
   private invoiceMonetaryData: InvoiceMonetaryData | null = null;
@@ -21,11 +21,11 @@ export class Invoice {
     this.conversionRates = conversionRates;
   }
 
-  public setBuyer(buyer: Entity) {
+  public setBuyer(buyer: Entity_Buyer) {
     this.buyer = buyer;
   }
 
-  public setSeller(seller: Entity) {
+  public setSeller(seller: Entity_Seller) {
     this.seller = seller;
   }
 
@@ -76,7 +76,13 @@ export class Invoice {
     }
   }
 
-  private addEntityToXML = (xml: XMLBuilder, entity: Entity, params: { showVATData: boolean; showLegalForm: boolean }) => {
+  private addEntityToXML = (xml: XMLBuilder, { showLegalForm, entity }: {
+    showLegalForm: true;
+    entity: Entity_Seller;
+  } | {
+    showLegalForm: false;
+    entity: Entity_Buyer;
+  }, params: { showVATData: boolean }) => {
     const party = xml.ele("cac:Party");
 
     const address = party.ele("cac:PostalAddress");
@@ -98,10 +104,10 @@ export class Invoice {
     const legalEntity = party.ele("cac:PartyLegalEntity");
 
     legalEntity.ele("cbc:RegistrationName").txt(entity.registrationName).up();
-    legalEntity.ele("cbc:CompanyID").txt(entity.registrationCode).up();
+    legalEntity.ele("cbc:CompanyID").txt(entity.regCom).up();
 
-    // The buyer entity shall not have a Company Legal Form (Nr. Inregistrare in Reg. Com.)
-    params.showLegalForm && legalEntity.ele("cbc:CompanyLegalForm").txt(entity.regCom).up();
+    // The buyer entity shall not have additional legal form data
+    showLegalForm && legalEntity.ele("cbc:CompanyLegalForm").txt(entity?.legalFormData ?? "").up();
 
     party.ele("cac:Contact").up();
 
@@ -275,10 +281,10 @@ export class Invoice {
 
     // Add the seller and buyer entities to the XML according to the validation rules
     const supplierParty = invoice.ele("cac:AccountingSupplierParty");
-    this.addEntityToXML(supplierParty, this.seller, { showVATData, showLegalForm: true });
+    this.addEntityToXML(supplierParty, { showLegalForm: true, entity: this.seller }, { showVATData });
 
     const customerParty = invoice.ele("cac:AccountingCustomerParty");
-    this.addEntityToXML(customerParty, this.buyer, { showVATData, showLegalForm: false });
+    this.addEntityToXML(customerParty, { showLegalForm: false, entity: this.buyer }, { showVATData });
 
     if (!!this.invoicePaymentMeans) {
       // Add payment means to the XML
@@ -325,4 +331,4 @@ export const getTaxDueCodeDescription = (code: TaxDueCode) => {
   return TaxDueCodesDescriptions[code];
 }
 
-export type { Entity, InvoiceGeneralData, ConversionRates, InvoiceLine, InvoiceMonetaryData, InvoicePaymentMeans, InvoiceTaxData, InvoiceTypeCode, TaxDueCode } from "./types";
+export type { Entity_Seller, Entity_Buyer, InvoiceGeneralData, ConversionRates, InvoiceLine, InvoiceMonetaryData, InvoicePaymentMeans, InvoiceTaxData, InvoiceTypeCode, TaxDueCode } from "./types";

@@ -23,7 +23,7 @@ const main = () => {
   })
 
   invoice.setSeller({
-    registrationName: "Buyer",
+    registrationName: "Seller S.R.L.",
     registrationCode: 'RO00000000',
     address: {
       streetName: "Adresa",
@@ -33,10 +33,11 @@ const main = () => {
     },
     regCom: "J00/000/0000",
     taxRegistrationCode: null,
+    legalFormData: "Capital social: 200 LEI" // Required
   })
 
   invoice.setBuyer({
-    registrationName: "Buyer",
+    registrationName: "Buyer S.A.",
     registrationCode: 'RO00000001',
     address: {
       streetName: "Adresa",

@@ -229,20 +229,34 @@ invoice.setInvoiceGeneralData({
 
 ### `Buyer` si `Seller`
 
-`Buyer` si `Seller` sunt obiectele care conțin datele despre vanzatorul si cumparatorul facturii. Acestea folosesc aceeasi schema de date.
+`Buyer` si `Seller` sunt obiectele care conțin datele despre vanzatorul si cumparatorul facturii. Acestea folosesc urmatoarele 2 scheme de date:
 
-Schema generala:
+Schemele `Entity_Seller` si `Entity_Buyer`:
 
 ```typescript
-type Entity = {
+export type Entity_Seller = {
   registrationName: string;
   registrationCode: string;
   regCom: string;
   address: {
     streetName: string;
     cityName: string;
-    countrySubentityCode: string; // RO-[Cod de judet] ex: RO-SV
-    countryCode: string; // RO
+    countrySubentityCode: string;
+    countryCode: string;
+  };
+  taxRegistrationCode: string | null;
+  legalFormData: string;
+};
+
+export type Entity_Buyer = {
+  registrationName: string;
+  registrationCode: string;
+  regCom: string;
+  address: {
+    streetName: string;
+    cityName: string;
+    countrySubentityCode: string;
+    countryCode: string;
   };
   taxRegistrationCode: string | null;
 };
@@ -254,7 +268,7 @@ acestea pot fi setate folosind metoda `setBuyer` sau `setSeller` din clasa `Invo
 const invoice = new Invoice();
 
 invoice.setSeller({
-  registrationName: "Seller",
+  registrationName: "Seller S.R.L.",
   registrationCode: "RO00000000",
   address: {
     streetName: "Adresa",
@@ -263,10 +277,28 @@ invoice.setSeller({
     countryCode: "RO",
   },
   taxRegistrationCode: "RO00000000",
+  legalFormData: "Capital social: 200 LEI",
 });
 
-// Aceeasi metoda se aplica si la `invoice.setBuyer`
+invoice.setBuyer({
+  registrationName: "Buyer S.A.",
+  registrationCode: "RO00000001",
+  address: {
+    streetName: "Adresa",
+    cityName: "Suceava",
+    countryCode: "RO",
+    countrySubentityCode: "RO-SV",
+  },
+  regCom: "J00/001/0000",
+  taxRegistrationCode: "RO00000001",
+});
 ```
+
+**legalFormData** este un camp obligatoriu ce trebuie sa contina elementele prevazute in legea 31/90 (art 74, alin1), daca nu au fost deja expuse sub un alt camp, si anume:
+
+- sediul social. Pentru societăţile care au puncte de lucru, se trece pe factură atât adresa sediului social, cât şi adresa punctului de lucru;
+- capitalul social pentru SRL. Pentru SA şi societăţile pe acţiuni în comandita se menţionează capitalul subscris şi vărsat;
+- numărul din registrul comerţului.
 
 ### `InvoicePaymentMeans`
 
